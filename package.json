@@ -1,0 +1,37 @@
+{
+  "name": "the_books_shelf",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/server.js",
+    "server": "nodemon server/server.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sleekcharly/the_books_shelf.git"
+  },
+  "keywords": [
+    "books",
+    "authors",
+    "writer"
+  ],
+  "author": "Charles Ukasoanya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sleekcharly/the_books_shelf/issues"
+  },
+  "homepage": "https://github.com/sleekcharly/the_books_shelf#readme",
+  "dependencies": {
+    "bcrypt": "^4.0.0",
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.1.0",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.2"
+  }
+}
