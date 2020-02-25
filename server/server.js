@@ -13,6 +13,7 @@ const app = express();
 /* routers */
 //user routes
 const user = require('./routes/user');
+const books = require('./routes/book')
 
 // connect to database
 mongoose.connect(config.DATABASE, {
@@ -26,6 +27,7 @@ mongoose.connect(config.DATABASE, {
 app.use(bodyParser.json()); // middleware for parsing json files
 app.use(cookieParser());
 app.use('/api/users', user); // middleware for user routes
+app.use('/api/books', books); // middleware for book routes
 
 
 // create application port on development
