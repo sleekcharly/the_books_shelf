@@ -23,8 +23,10 @@ mongoose.connect(config.DATABASE, {
 });
 
 // application middlewares
-app.use(bodyParser.json());
+app.use(bodyParser.json()); // middleware for parsing json files
+app.use(cookieParser());
 app.use('/api/users', user); // middleware for user routes
+
 
 // create application port on development
 const port = process.env.Port || 3001;
