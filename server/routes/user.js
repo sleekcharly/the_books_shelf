@@ -64,7 +64,14 @@ router.get('/auth',auth,(req,res)=>{
             lastname: req.user.lastname
         }
     })
-})
+});
+
+router.get('/logout', auth, (req, res) => {
+    req.user.deleteToken(req.token, (err, user) => {
+        if(err) return res.status(400).send(err);
+        res.status(200).send('Goodbye');
+    });
+});
 
 
 // export the router

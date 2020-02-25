@@ -77,6 +77,7 @@ userSchema.methods.generateToken = function(cb){
     })
 }
 
+// token verification
 userSchema.statics.findByToken = function(token,cb){
     var user = this;
 
@@ -87,6 +88,17 @@ userSchema.statics.findByToken = function(token,cb){
         })
     })
 }
+
+
+// user schema method for user logout
+userSchema.methods.deleteToken = function(token, cb){
+    var user = this;
+
+    user.updateOne({$unset: {token: 1}}, function(err, user) {
+        if(err) return cb(err);
+        cb(null, user);
+    });
+};
 
 const User = mongoose.model('User', userSchema);
 module.exports = { User }
