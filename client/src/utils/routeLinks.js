@@ -8,7 +8,8 @@ export const RouteLinks = {
         {
             icon: 'sign-in',
             text: 'Log-in',
-            link: '/login'
+            link: '/login',
+            restricted: true
         }
     ],
 

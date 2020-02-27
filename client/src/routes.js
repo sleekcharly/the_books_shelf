@@ -17,9 +17,9 @@ const Routes = () => {
         <BrowserRouter>
             <MainLayout>                
                 <Switch>
-                    <Route path="/admin" component={Auth(Admin)} />
-                    <Route path="/logout" component={Logout} />
-                    <Route path="/login" component={Auth(Login)} />
+                    <Route path="/admin" component={Auth(Admin, true)} />
+                    <Route path="/logout" component={Auth(Logout, true)} />
+                    <Route path="/login" component={Auth(Login, false)} />
                     <Route path="/" component={Home} />
                 </Switch>
             </MainLayout>

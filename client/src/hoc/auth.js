@@ -16,9 +16,13 @@ export default function(ComposedClass, reload){
 
                 this.setState({loading: false});
                 if(!user){
-                    this.props.history.push('/login');
+                    if(reload){
+                        this.props.history.push('/login');
+                    }
                 } else {
-                    this.props.history.push('/admin');
+                    if(reload === false){
+                        this.props.history.push('/admin');
+                    }
                 }
             })
         }
