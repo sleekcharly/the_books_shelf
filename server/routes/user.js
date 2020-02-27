@@ -45,7 +45,13 @@ router.post('/login', (req, res) => {
             user.generateToken((err, user) => {
                 if(err) return res.status(400).send(err);
                 res.cookie('auth', user.token).json({
-                    auth: true
+                    auth: true,
+                    userData:{
+                        id: user._id,
+                        email: user.email,
+                        name: user.name,
+                        lastname: user.lastname
+                    }
                 })
             })
         })

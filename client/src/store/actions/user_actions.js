@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 import {
-    USER_LOGIN
+    USER_LOGIN,
+    USER_AUTH
 } from '../types';
 
 //================USER ============= //
@@ -13,4 +14,14 @@ export function loginUser({email, password}){
         type: USER_LOGIN,
         payload: request
     }
+}
+
+export function auth(){
+    const request = axios.get('/api/users/auth')
+        .then(response => response.data);
+
+        return {
+            type: USER_AUTH,
+            payload: request
+        }
 }

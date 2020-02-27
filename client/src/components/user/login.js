@@ -23,6 +23,24 @@ class Login extends Component {
         validation: false
     }
 
+    //determine auth and set state success
+    static getDerivedStateFromProps(props, state){
+        const auth = props.user.auth;
+        if(auth){
+            return {
+                success: auth ? true : false
+            }
+        }
+        return null;
+    };
+
+    // redirect to admin page once authenticated
+    componentDidUpdate(){
+        if(this.state.success){
+            this.props.history.push('/admin')
+        }
+    }
+
     render() {
         return (
             <div className="container form_container">
@@ -38,6 +56,13 @@ class Login extends Component {
                     validationSchema={LoginSchema}
                     onSubmit={ values => {
                         this.props.dispatch(loginUser(values))
+                            .then (response => {
+                                if(!this.props.user.auth){
+                                    this.setState({
+                                        validation: true
+                                    })
+                                }
+                            })
                     }}
                 >
                     {({
@@ -92,6 +117,14 @@ class Login extends Component {
                             <button type="submit">
                                 Login
                             </button>
+                            <br/>
+                            {
+                                this.state.validation ?
+                                    <div className="error_label">
+                                       Error, please try again. 
+                                    </div>
+                                : null
+                            }
                         </form>
                     )}
                 </Formik>
