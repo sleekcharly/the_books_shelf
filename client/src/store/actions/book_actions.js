@@ -4,7 +4,8 @@ import {
     BOOK_ADD,
     BOOK_CLEAR,
     BOOK_GET,
-    BOOK_UPDATE
+    BOOK_UPDATE,
+    BOOKS_GET
 } from '../types';
 
 export function addBook(book){
@@ -44,6 +45,23 @@ export function getBook(bookId){
 
     return {
         type: BOOK_GET,
+        payload: request
+    }
+}
+
+export function getBooks(
+    limit = 50,
+    start = 0,
+    order = 'asc',
+    list
+){
+    const request = axios.get(`/api/books/all_books?limit=${limit}&skip=${start}$order=${order}`)
+        .then (response => {
+            return response.data
+        });
+
+    return {
+        type: BOOKS_GET,
         payload: request
     }
 }
