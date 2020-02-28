@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React,{Component } from 'react';
 import { Formik } from 'formik';
 import AdminLayout from '../../../../hoc/adminLayout';
+import { Link } from 'react-router-dom';
 
 import {
     BookSchema,
@@ -9,15 +10,43 @@ import {
 
 //WYSIWYG
 import { EditorState } from 'draft-js';
-import {stateToHtml} from 'draft-js-export-html';
+import {stateToHTML} from 'draft-js-export-html';
 import { Editor }  from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
+// redux stuff
+import { connect } from 'react-redux';
+
+import { addBook, clearBook } from '../../../../store/actions/book_actions';
+
+
 class AddPosts extends Component {
     state = {
-        editorState:'',
+        editorState:EditorState.createEmpty(),
         editorContentHtml:'',
         success: false
+    }
+
+    onEditorStateChange = (editorState) => {
+        this.setState({
+            editorState,
+            editorContentHtml: stateToHTML(editorState.getCurrentContent())
+        })
+    }
+
+    onPostBook = (values) => {
+        this.props.dispatch(addBook(values));
+    }
+
+    componentDidUpdate(prevProps){
+        const hasChanged = this.props.books !== prevProps.books;
+        if (hasChanged){
+            this.setState({ success: true })
+        }
+    }
+
+    componentWillUnmount(){
+        this.props.dispatch(clearBook());
     }
 
     render(){
@@ -35,8 +64,16 @@ class AddPosts extends Component {
                     price:""
                    }}
                    validationSchema={BookSchema}
-                   onSubmit={(values)=>{
-                        console.log(values)
+                   onSubmit={(values, {resetForm})=>{
+                        this.onPostBook({
+                            ...values,
+                            content: this.state.editorContentHtml
+                        });
+                        this.setState ({
+                            editorState:EditorState.createEmpty(),
+                            editorContentHtml:'',
+                        })
+                        resetForm({});
                    }}
                 >
                     { ({
@@ -56,6 +93,13 @@ class AddPosts extends Component {
                                 onHandleBlur={(e) => handleBlur(e)}
                                 errors={errors.name}
                                 touched={touched.name}
+                            />
+
+                            <Editor
+                                editorState={this.state.editorState}
+                                onEditorStateChange={this.onEditorStateChange}
+                                wrapperClassName="demo-wrapper"
+                                editorClassName="demo-editor"
                             />
 
                             <h4>Book info</h4>
@@ -109,6 +153,18 @@ class AddPosts extends Component {
                             <button type="submit">
                                 Add Book
                             </button>
+                            <br/>
+                            {
+                                this.state.success ?
+                                <div className="success_entry">
+                                    <div>Congrats !!!</div>
+                                    <Link to={`/article/${this.props.books.add.bookId}`}>
+                                        See your book
+                                    </Link>
+                                </div>
+                                : null
+                            }
+
                         </form>
                     )}
                 </Formik>
@@ -118,4 +174,10 @@ class AddPosts extends Component {
     }
 }
 
-export default AddPosts;
+function mapStateToProps(state){
+    return {
+        books: state.books
+    }
+}
+
+export default connect(mapStateToProps)(AddPosts);
