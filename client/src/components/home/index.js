@@ -13,7 +13,13 @@ import { RowGenerator, GenerateRowsWithBlocks } from '../../utils/helpers';
 class Home extends Component {
 
     componentDidMount(){
-        this.props.dispatch(getBooks(8,0,'desc'))
+        this.props.dispatch(getBooks(6,0,'desc'))
+    }
+
+    loadmore = () => {
+        let bookList = this.props.books.collection;
+        let count = bookList.length;
+        this.props.dispatch(getBooks(2, count, 'desc', bookList))
     }
 
     showArticles = (books) => {
@@ -34,7 +40,7 @@ class Home extends Component {
                 <div className="row articles_container">
                     {this.showArticles(this.props.books)}
                 </div>
-                <div className="loadmore">
+                <div className="loadmore" onClick={this.loadmore}>
                     Load more
                 </div>
             </div>

@@ -57,7 +57,7 @@ export function getBooks(
 ){
     const request = axios.get(`/api/books/all_books?limit=${limit}&skip=${start}$order=${order}`)
         .then (response => {
-            return response.data
+            return list ? [...list, ...response.data] : response.data
         });
 
     return {
