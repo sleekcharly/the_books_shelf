@@ -9,6 +9,7 @@ import Home from './components/home';
 import Login from './components/user/login';
 import Admin from './components/user/admin';
 import Logout from './components/user/logout';
+import Article from './components/article';
 
 // users post component
 import AddPosts from './components/user/admin/posts/add';
@@ -27,6 +28,7 @@ const Routes = () => {
                     <Route path="/admin/posts/edit/:id" component={Auth(EditPost, true)} />
                     <Route path="/admin/posts/create" component={Auth(AddPosts, true)} />
                     <Route path="/admin/posts" component={Auth(AdminPosts, true)} />
+                    <Route path="/article/:id" component={Auth(Article)}/>
                     <Route path="/admin" component={Auth(Admin, true)} />
                     <Route path="/logout" component={Auth(Logout, true)} />
                     <Route path="/login" component={Auth(Login, false)} />
